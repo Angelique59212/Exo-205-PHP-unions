@@ -1,5 +1,34 @@
 <?php
+require 'Connect.php';
+require 'Config.php';
 
+$myConnexion = Connect::dbConnect();
+
+$stmt = $myConnexion->prepare("
+    SELECT username FROM admin
+    UNION
+    SELECT username FROM client
+    UNION
+    SELECT username FROM user 
+");
+
+$stmt->execute();
+echo "<pre>";
+print_r($stmt->fetchAll());
+echo "</pre>";
+
+$stmt = $myConnexion->prepare("
+    SELECT username FROM admin
+    UNION ALL 
+    SELECT username FROM client
+    UNION ALL 
+    SELECT username FROM user 
+");
+
+$stmt->execute();
+echo "<pre>";
+print_r($stmt->fetchAll());
+echo "</pre>";
 /**
  * Reproduisez les tables présentes dans le fichier image ( via workbench ou phpmyadmin )
  * Ajoutez des donées dans chaque table en vous assurant d'ajouter au moins 1 fois un utilisateur identique dans deux tables.
